@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "npm": "^9.7.2",
     "postgres": "^3.3.5"
   }
 }
