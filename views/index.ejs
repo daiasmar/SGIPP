@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+    
+    <section class="sesion">
+        <h1>Bienvenido</h1>
+        <a href="">cerrar sesión</a>
+    </section>
+
+    <section class="productos">
+        <a href="/nuevo-producto">añadir producto</a>
+        <% for(let i = 0; i < productos.length; i++){ %>
+            <div class="producto">
+                <p><%= productos[i].sku %></p>
+                <p><%= productos[i].nombre %></p>
+                <p><%= productos[i].estado %></p>
+                <button>></button>
+                <p><%= productos[i].descripcion %></p>
+            </div>
+        <% } %>
+    </section>
+
+</body>
+</html>

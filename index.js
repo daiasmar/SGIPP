@@ -1,13 +1,25 @@
 const express = require('express');
 const {urlencoded} = require('body-parser');
 const session = require('express-session');
+const {leerProductos,leerEntradas,crearProducto,crearEntrada,eliminarEntrada} = require('./config/db');
 
-const server = express();
+const servidor = express();
 
-server.use(urlencoded({extended:true}));
+servidor.set('view engine','ejs');
+servidor.use(express.static('./estatico'));
+servidor.use(urlencoded({extended:true}));
 
-server.post('/nuevo-producto', (req, res) => {
+servidor.get('/', async (req, res) => {
+    let productos = await leerProductos();
+    res.render('index', { productos });
+})
+
+servidor.get('/nuevo-producto', async (req, res) => {
+    res.render('añadir');
+})
+
+servidor.post('/nuevo-producto', (req, res) => {
     res.send(req.body);
 });
 
-server.listen(4000);
+servidor.listen(4000);

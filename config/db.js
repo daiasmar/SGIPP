@@ -16,7 +16,7 @@ function leerProductos(){
     return new Promise(async callback => {
         let cnx = await crearConexion();
         try{
-            let productos = await cnx`SELECT sku,nombre,descripcion,stock.estado FROM productos INNER JOIN stock ON productos.stock = stock.id`;
+            let productos = await cnx`SELECT productos.id,sku,nombre,descripcion,stock.estado FROM productos INNER JOIN stock ON productos.stock = stock.id`;
             callback(productos)
         }catch(exc){
             callback({ resultado : 'ko' })
@@ -72,16 +72,17 @@ function crearEntrada(producto,cantidad,fechaCaducidad){
 
 function eliminarEntrada(id){
     return new Promise(async callback => {
+        let resultado = 'ok';
         let cnx = await crearConexion();
         try{
-            await cnx`SELECT entradas.id,cantidad,fecha_entrada,fecha_caducidad,estados.estado FROM entradas INNER JOIN estados ON entradas.estado = estados.id WHERE entradas.id = ${id}`;
-            callback(productos)
+            await cnx`DELETE FROM entradas WHERE id = ${id}`;
         }catch(exc){
-            callback({ resultado : 'ko' })
+            resultado = 'ko';
         }finally{
             cnx.close();
+            callback({resultado})
         }
     })
 }
 
-leerEntradas(1).then(res => console.log(res))
+module.exports = {leerProductos,crearProducto,leerEntradas,crearEntrada,eliminarEntrada};
