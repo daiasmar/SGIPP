@@ -1,12 +1,13 @@
 const formulario = document.querySelector('form');
-const sku = document.querySelector('input:first-child');
-const nombre = document.querySelector('input:nth-child(2)');
-const descripcion = document.querySelector('input:last-child');
+const sku = document.querySelector('div:first-child input');
+const nombre = document.querySelector('div:nth-child(2) input');
+const descripcion = document.querySelector('div:nth-child(3) input');
+const error = document.querySelector('section p');
 
 formulario.addEventListener('submit', e => {
     e.preventDefault();
-    if(/^[A-Z]{2}\d{6}$/.test(sku.value) && /^[A-ZÁÉÍÓÚÑ]+$/.test(nombre.value)){
-        return console.log('correcto');
+    if(/^[A-Z]{2}\d{6}$/.test(sku.value) && /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s?)+$/.test(nombre.value) && /^[A-ZÁÉÍÓÚÑ].+$/.test(descripcion.value)){
+        return formulario.submit();
     }
-    console.log('error');
+    error.innerHTML = 'Los datos introducidos no son correctos';
 });

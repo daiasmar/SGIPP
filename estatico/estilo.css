@@ -6,7 +6,13 @@
 body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.sesion{
+input, button{
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+}
+.cabecera{
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -34,4 +40,42 @@ body{
 }
 .producto .visible{
     display: block;
+}
+
+.formulario{
+    width: 90%;
+    margin: 0 auto 50px;
+}
+
+.formulario p{
+    margin-top: 10px;
+    text-align: center;
+    color: #f00;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+}
+
+form input[type="text"]{
+    width: 250px;
+    border: 1px solid #999;
+    border-radius: 10px;
+    margin: 10px 10px 0 0;
+    padding: 10px 15px;
+}
+
+form input[type="submit"]{
+    background-color: #555;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px 15px;
+    align-self:last baseline;
+}
+
+form div{
+    display: flex;
+    flex-direction: column;
 }

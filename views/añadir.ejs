@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-    <section class="sesion">
+    <section class="cabecera">
         <a href="/">volver</a>
-        <h1>añadir un nuevo producto</h1>
     </section>
-    <section>
+    <section class="formulario">
         <form action="/nuevo-producto" method="POST">
-            <input type="text" placeholder="sku">
-            <input type="text" placeholder="nombre">
-            <input type="text" placeholder="descripcion">
+            <div>
+                <label for="sku">SKU</label>
+                <input type="text" placeholder="p. ej. AB123456" name="sku" id="sku">
+            </div>
+            <div>
+                <label for="nombre">Nombre del Producto</label>
+                <input type="text" placeholder="p. ej. Nombre En Mayúscula" name="nombre">
+            </div>
+            <div>
+                <label for="descripcion">Descripción del Producto</label>
+                <input type="text" placeholder="p. ej. Descripción del producto" name="descripcion" id="descripcion">
+            </div>
             <input type="submit" value="añadir producto">
         </form>
+        <p></p>
     </section>
 
     <script src="/funciones.js"></script>

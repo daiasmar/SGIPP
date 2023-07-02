@@ -18,8 +18,13 @@ servidor.get('/nuevo-producto', async (req, res) => {
     res.render('añadir');
 })
 
-servidor.post('/nuevo-producto', (req, res) => {
-    res.send(req.body);
+servidor.post('/nuevo-producto', async (req, res) => {
+    let {sku,nombre,descripcion} = req.body;
+    let {resultado} = await crearProducto(sku,nombre.trim(),descripcion.trim());
+    if(resultado == 'ok'){
+        return res.redirect('/');
+    }
+    res.send('ha ocurrido un error, intente mas tarde');
 });
 
 servidor.listen(4000);
