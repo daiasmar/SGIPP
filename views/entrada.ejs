@@ -9,7 +9,7 @@
 <body>
     <section class="cabecera">
         <a href="/">volver</a>
-        <h1>nombre producto</h1>
+        <h1><%=entradas[0].nombre%></h1>
     </section>
 
     <section class="formulario">
@@ -31,16 +31,29 @@
         <p></p>
     </section>
 
-    <section>
-        <div>
-            <p>lote</p>
-            <p>unidades</p>
-            <p>fecha-entrada</p>
-            <p>fecha-caducidad</p>
-            <p>estado</p>
-            <p>nombre del usuario</p>
-            <button>salida de almacen</button>
+    <section class="entradas">
+        <div class="entrada">
+            <p>Lote</p>
+            <p>Cantidad</p>
+            <p>Fecha de Entrada</p>
+            <p>Fecha de Caducidad</p>
+            <p>Estado</p>
+            <p>Usuario</p>
         </div>
+        <% for(let i = 0; i < entradas.length; i++){ %>
+            <% if(entradas[i].id !== null) { %>
+                <div class="entrada">
+                    <p><%= entradas[i].lote %></p>
+                    <p><%= entradas[i].cantidad %></p>
+                    <% let entrada = entradas[i].fecha_entrada.toLocaleDateString('es-ES') %><p><%= entrada %></p>
+                    <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p><%= caducidad %></p>
+                    <p><%= entradas[i].estado %></p>
+                    <p><%= entradas[i].usuario %></p>
+                </div>
+            <% }else{ %>
+                <p class="noexiste">no existen entradas aún</p>
+            <% } %>
+        <% } %>
     </section>
 </body>
 </html>

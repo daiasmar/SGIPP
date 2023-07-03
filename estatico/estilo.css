@@ -18,19 +18,23 @@ input, button{
     width: 90%;
     margin: 50px auto 50px;
 }
-.productos{
+.productos, .entradas{
     width: 90%;
     margin: 0 auto 50px;
 }
-.producto{
+.producto, .entrada{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     border-radius: 20px;
     border: 2px solid #999;
-    padding: 20px;
+    padding: 15px 20px 15px;
     margin-top: 20px;
     gap: 10px;
+}
+
+.entrada p{
+    width: 15%;
 }
 
 .producto p:last-child{
@@ -42,7 +46,7 @@ input, button{
     margin: 0 auto 50px;
 }
 
-.formulario p{
+.formulario p, .noexiste{
     margin-top: 10px;
     text-align: center;
     color: #f00;

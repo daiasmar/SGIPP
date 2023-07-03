@@ -45,7 +45,7 @@ function leerEntradas(id){
     return new Promise(async callback => {
         let cnx = await crearConexion();
         try{
-            let entradas = await cnx`SELECT entradas.id,cantidad,fecha_entrada,fecha_caducidad,estados.estado FROM entradas INNER JOIN estados ON entradas.estado = estados.id WHERE entradas.id = ${id}`;
+            let entradas = await cnx`SELECT entradas.id,productos.nombre,lote,cantidad,fecha_entrada,fecha_caducidad,estados.estado,sesiones.usuario FROM entradas INNER JOIN estados ON entradas.estado = estados.id INNER JOIN sesiones ON entradas.usuario = sesiones.id RIGHT JOIN productos ON entradas.producto = productos.id WHERE productos.id = ${id}`;
             callback(entradas)
         }catch(exc){
             callback({ resultado : 'ko' })
@@ -55,12 +55,12 @@ function leerEntradas(id){
     })
 }
 
-function crearEntrada(producto,cantidad,fechaCaducidad){
+function crearEntrada(producto,lote,cantidad,fechaCaducidad,usuario){
     return new Promise(async callback => {
         let resultado = 'ok';
         let cnx = await crearConexion();
         try{
-            await cnx`INSERT INTO entradas (producto,cantidad,fecha_caducidad) VALUES (${producto},${cantidad},${fechaCaducidad})`;
+            await cnx`INSERT INTO entradas (producto,lote,cantidad,fecha_caducidad,usuario) VALUES (${producto},${lote},${cantidad},${fechaCaducidad},${usuario})`;
         }catch(exc){
             resultado = 'ko';
         }finally{

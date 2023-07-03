@@ -55,9 +55,10 @@ servidor.post('/nuevo-producto', async (req, res) => {
     res.send('ha ocurrido un error, intente mas tarde');
 });
 
-servidor.get('/entrada/:id(\\d{1,11})', (req, res) => {
+servidor.get('/entrada/:id(\\d{1,11})', async (req, res) => {
     let id = req.params.id;
-    res.render('entrada',{id});
+    let entradas = await leerEntradas(id);
+    res.render('entrada',{entradas});
 })
 
 servidor.get('/logout', (req, res) => {
