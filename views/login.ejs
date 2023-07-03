@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+    <section class="cabecera">
+        <h1>Sistema de Gestión de Inventarios</h1>
+        <h2>para Productos Perecederos</h2>
+        <h2>INICIA SESIÓN</h2>
+    </section>
+
+    <section class="formulario">
+        <form action="/login" method="POST">
+            <div>
+                <label for="usuario">Usuario</label>
+                <input type="text" placeholder="Inserta tu nombre" name="usuario" id="usuario">
+            </div>
+            <div>
+                <label for="contraseña">Contraseña</label>
+                <input type="password" placeholder="Inserta tu contraseña" name="contraseña" id="contraseña">
+            </div>
+            <input type="submit" value="Iniciar sesión">
+        </form>
+        <% if(error){ %>
+            <p>Los datos introducidos no son correctos</p>
+        <% } %>
+    </section>
+</body>
+</html>

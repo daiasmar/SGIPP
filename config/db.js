@@ -85,4 +85,22 @@ function eliminarEntrada(id){
     })
 }
 
-module.exports = {leerProductos,crearProducto,leerEntradas,crearEntrada,eliminarEntrada};
+function leerSesiones(usuario,contraseña){
+    return new Promise(async callback => {
+        let resultado = 'ok';
+        let cnx = await crearConexion();
+        try{
+            let consulta = await cnx`SELECT * FROM sesiones WHERE usuario = ${usuario} AND contraseña = ${contraseña}`;
+            if(consulta.count == 0){
+                resultado = 'ko';
+            }
+        }catch(exc){
+            resultado = 'ko';
+        }finally{
+            callback({resultado})
+            cnx.close();
+        }
+    })
+}
+
+module.exports = {leerProductos,crearProducto,leerEntradas,crearEntrada,eliminarEntrada,leerSesiones};

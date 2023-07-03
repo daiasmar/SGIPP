@@ -9,7 +9,9 @@
 <body>
     <section class="cabecera">
         <a href="/">volver</a>
+        <h1>nombre producto</h1>
     </section>
+
     <section class="formulario">
         <form action="/nuevo-producto" method="POST">
             <div>
@@ -24,11 +26,21 @@
                 <label for="descripcion">Descripción del Producto</label>
                 <input type="text" placeholder="p. ej. Descripción del producto" name="descripcion" id="descripcion">
             </div>
-            <input type="submit" value="añadir producto">
+            <input type="submit" value="añadir entrada">
         </form>
         <p></p>
     </section>
 
-    <script src="/validacion.js"></script>
+    <section>
+        <div>
+            <p>lote</p>
+            <p>unidades</p>
+            <p>fecha-entrada</p>
+            <p>fecha-caducidad</p>
+            <p>estado</p>
+            <p>nombre del usuario</p>
+            <button>salida de almacen</button>
+        </div>
+    </section>
 </body>
 </html>

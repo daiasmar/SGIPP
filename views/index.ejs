@@ -10,18 +10,16 @@
     
     <section class="cabecera">
         <h1>Bienvenido</h1>
-        <a href="">cerrar sesión</a>
+        <a href="/logout">cerrar sesión</a>
     </section>
 
     <section class="productos">
         <a href="/nuevo-producto">añadir producto</a>
         <% for(let i = 0; i < productos.length; i++){ %>
             <div class="producto">
-                <p><%= productos[i].sku %></p>
-                <p><%= productos[i].nombre %></p>
+                <p><a href="/entrada/<%=productos[i].id%>"><%= productos[i].sku %></a> - <%= productos[i].nombre %></p>
                 <p><%= productos[i].estado %></p>
-                <button>></button>
-                <p><%= productos[i].descripcion %></p>
+                <p>Descripción : <%= productos[i].descripcion %></p>
             </div>
         <% } %>
     </section>
