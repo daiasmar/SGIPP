@@ -25,25 +25,29 @@ servidor.get('/login', (req, res) => {
 
 servidor.post('/login', async (req, res) => {
     let {usuario,contraseña} = req.body;
-    let {resultado} = await leerSesiones(usuario.trim(),contraseña.trim());
+    let {resultado,id} = await leerSesiones(usuario.trim(),contraseña.trim());
     if(resultado == 'ok'){
         req.session.usuario = usuario;
+        req.session.id = id;
         return res.redirect('/');
     }
-    res.render('login', { error : true })
+    res.render('login', {error : true})
 })
 
 servidor.get('/', async (req, res) => {
     if(req.session.usuario){
         let usuario = req.session.usuario;
         let productos = await leerProductos();
-        return res.render('index', {productos});
+        return res.render('index', {productos, usuario});
     }
     res.redirect('/login');
 })
 
 servidor.get('/nuevo-producto', async (req, res) => {
-    res.render('añadir');
+    if(req.session.usuario){
+        return res.render('añadir');
+    }
+    res.redirect('/login');
 })
 
 servidor.post('/nuevo-producto', async (req, res) => {
@@ -56,9 +60,23 @@ servidor.post('/nuevo-producto', async (req, res) => {
 });
 
 servidor.get('/entrada/:id(\\d{1,11})', async (req, res) => {
-    let id = req.params.id;
-    let entradas = await leerEntradas(id);
-    res.render('entrada',{entradas});
+    if(req.session.usuario){
+        let id = req.params.id;
+        let entradas = await leerEntradas(id);
+        return res.render('entrada',{entradas, id : id});
+    }
+    res.redirect('/login');
+});
+
+servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => {
+    let {lote,cantidad,fecha_caducidad} = req.body;
+    let producto = req.params.id;
+    let usuario = req.session.id;
+    let {resultado} = await crearEntrada(producto,lote,cantidad,fecha_caducidad,usuario);
+    if(resultado == 'ok'){
+        return res.redirect('/entrada/:id(\\d{1,11})')
+    }
+    res.send(usuario); 
 })
 
 servidor.get('/logout', (req, res) => {

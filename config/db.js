@@ -91,9 +91,10 @@ function leerSesiones(usuario,contraseña){
         let cnx = await crearConexion();
         try{
             let consulta = await cnx`SELECT * FROM sesiones WHERE usuario = ${usuario} AND contraseña = ${contraseña}`;
-            if(consulta.count == 0){
-                resultado = 'ko';
+            if(consulta.count > 0){
+                callback({resultado, id : consulta[0].id})
             }
+            resultado = 'ko';
         }catch(exc){
             resultado = 'ko';
         }finally{

@@ -13,18 +13,18 @@
     </section>
 
     <section class="formulario">
-        <form action="/nuevo-producto" method="POST">
+        <form action="/entrada/<%=id%>" method="POST">
             <div>
-                <label for="sku">SKU</label>
-                <input type="text" placeholder="p. ej. AB123456" name="sku" id="sku">
+                <label for="lote">Lote</label>
+                <input type="text" placeholder="p. ej. 150055-52" name="lote" id="lote">
             </div>
             <div>
-                <label for="nombre">Nombre del Producto</label>
-                <input type="text" placeholder="p. ej. Nombre En Mayúscula" name="nombre">
+                <label for="cantidad">Cantidad sin Unidades</label>
+                <input type="text" placeholder="p. ej. 50" name="cantidad" id="cantidad">
             </div>
             <div>
-                <label for="descripcion">Descripción del Producto</label>
-                <input type="text" placeholder="p. ej. Descripción del producto" name="descripcion" id="descripcion">
+                <label for="fecha_caducidad">Fecha de Caducidad</label>
+                <input type="date" name="fecha_caducidad" id="fecha_caducidad">
             </div>
             <input type="submit" value="añadir entrada">
         </form>
@@ -51,9 +51,11 @@
                     <p><%= entradas[i].usuario %></p>
                 </div>
             <% }else{ %>
-                <p class="noexiste">no existen entradas aún</p>
+                <p class="noexiste">No existen entradas aún</p>
             <% } %>
         <% } %>
     </section>
+
+    <script src="/validacion_entrada.js"></script>
 </body>
 </html>

@@ -57,7 +57,7 @@ form{
     justify-content: center;
 }
 
-form input[type="text"], form input[type="password"]{
+form input[type="text"], form input[type="password"], form input[type="date"]{
     width: 250px;
     border: 1px solid #999;
     border-radius: 10px;
@@ -77,4 +77,13 @@ form input[type="submit"]{
 form div{
     display: flex;
     flex-direction: column;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 90%;
+    text-align: center;
+    margin: 50px auto 50px;
 }
