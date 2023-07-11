@@ -49,6 +49,7 @@
                     <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p><%= caducidad %></p>
                     <p><%= entradas[i].estado %></p>
                     <p><%= entradas[i].usuario %></p>
+                    <button><a href="#">Borrar</a></button>
                 </div>
             <% }else{ %>
                 <p class="noexiste">No existen entradas aún</p>
