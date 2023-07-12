@@ -1,5 +1,5 @@
 const express = require('express');
-const {urlencoded} = require('body-parser');
+const {urlencoded, json} = require('body-parser');
 const session = require('express-session');
 const {leerProductos,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones} = require('./config/db');
 
@@ -15,6 +15,7 @@ servidor.use(session({
 
 servidor.use(express.static('./estatico'));
 servidor.use(urlencoded({extended:true}));
+servidor.use(json());
 
 servidor.get('/login', (req, res) => { //Pagina de LOGIN
     if(!req.session.usuario){
@@ -79,7 +80,14 @@ servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => { // POST para crea
     res.send('ha ocurrido un error, intente mas tarde');
 });
 
-servidor.delete('/')
+servidor.delete('/eliminar-entrada', async (req, res) => { // eliminar entrada
+    let idEntrada = req.body.id;
+    let {resultado} = await eliminarEntrada(idEntrada);
+    if(resultado == 'ok'){
+        return res.json({resultado : 'ok'});
+    };
+    res.send('ha ocurrido un error, intente mas tarde');
+})
 
 servidor.get('/logout', (req, res) => { // Cerrar sesion
     req.session.destroy(() => res.redirect('/login'));
