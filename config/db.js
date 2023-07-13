@@ -133,4 +133,33 @@ function actualizarEstado(id, estado){
     })
 }
 
-module.exports = {leerProductos,crearProducto,leerTodasEntradas,leerEntradas,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado};
+function leerStock(producto){
+    return new Promise(async callback => {
+        let cnx = await crearConexion();
+        try{
+            let cantidades = await cnx`SELECT id,cantidad FROM entradas WHERE producto = ${producto}`;
+            callback(cantidades.count)
+        }catch(exc){
+            callback({ resultado : 'ko' })
+        }finally{
+            cnx.close();
+        }
+    })
+}
+
+function actualizarStock(id,stock){
+    return new Promise(async callback => {
+        let resultado = 'ok';
+        let cnx = await crearConexion();
+        try{
+            await cnx`UPDATE productos SET stock = ${stock} WHERE id = ${id}`;
+        }catch(exc){
+            resultado = 'ko';
+        }finally{
+            cnx.close();
+            callback({resultado})
+        }
+    })
+}
+
+module.exports = {leerProductos,crearProducto,leerTodasEntradas,leerEntradas,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado,leerStock,actualizarStock};

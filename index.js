@@ -1,7 +1,7 @@
 const express = require('express');
 const {urlencoded, json} = require('body-parser');
 const session = require('express-session');
-const {leerProductos,leerTodasEntradas,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado} = require('./config/db');
+const {leerProductos,leerTodasEntradas,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado,leerStock,actualizarStock} = require('./config/db');
 const {convertirDia} = require('./config/numeros');
 
 const servidor = express();
@@ -30,6 +30,19 @@ servidor.use(async (req,res,nxt) => {
             }
             await actualizarEstado(entradas[i].id,2);
         }
+    }
+    nxt();
+});
+
+servidor.use(async (req,res,nxt) => {
+    let productos = await leerProductos();
+    for(let i = 0; i < productos.length; i++){
+        let resultado = await leerStock(productos[i].id);
+        if(resultado !== 0){
+            actualizarStock(productos[i].id,2);
+            return nxt();
+        }
+        actualizarStock(productos[i].id,1);
     }
     nxt();
 });
