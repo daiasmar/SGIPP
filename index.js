@@ -1,7 +1,8 @@
 const express = require('express');
 const {urlencoded, json} = require('body-parser');
 const session = require('express-session');
-const {leerProductos,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones} = require('./config/db');
+const {leerProductos,leerTodasEntradas,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado} = require('./config/db');
+const {convertirDia} = require('./config/numeros');
 
 const servidor = express();
 
@@ -16,6 +17,22 @@ servidor.use(session({
 servidor.use(express.static('./estatico'));
 servidor.use(urlencoded({extended:true}));
 servidor.use(json());
+
+servidor.use(async (req,res,nxt) => {
+    let entradas = await leerTodasEntradas();
+    let hoy = new Date().setHours(0,0,0,0);
+    for(let i = 0; i < entradas.length; i++){
+        let caducidad = entradas[i].fecha_caducidad.setHours(0,0,0,0);
+        if(convertirDia(caducidad - hoy) < 3){
+            if(convertirDia(caducidad - hoy) < 0){
+                await actualizarEstado(entradas[i].id,1);
+                return nxt();
+            }
+            await actualizarEstado(entradas[i].id,2);
+        }
+    }
+    nxt();
+});
 
 servidor.get('/login', (req, res) => { //Pagina de LOGIN
     if(!req.session.usuario){
@@ -71,9 +88,10 @@ servidor.get('/entrada/:id(\\d{1,11})', async (req, res) => { // Pagina de cada 
 
 servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => { // POST para crear una entrada en el producto
     let {lote,cantidad,fecha_caducidad} = req.body;
+    let hoy = new Date();
     let producto = req.params.id;
     let usuario = req.session.idTabla;
-    let {resultado} = await crearEntrada(producto,lote,cantidad,fecha_caducidad,usuario);
+    let {resultado} = await crearEntrada(producto,lote,cantidad,hoy,fecha_caducidad,usuario);
     if(resultado == 'ok'){
         return res.redirect('/entrada/:id(\\d{1,11})')
     }

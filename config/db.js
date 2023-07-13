@@ -41,6 +41,20 @@ function crearProducto(sku,nombre,descripcion){
     })
 }
 
+function leerTodasEntradas(){
+    return new Promise(async callback => {
+        let cnx = await crearConexion();
+        try{
+            let entradas = await cnx`SELECT id,fecha_caducidad,estado FROM entradas`;
+            callback(entradas)
+        }catch(exc){
+            callback({ resultado : 'ko' })
+        }finally{
+            cnx.close();
+        }
+    })
+}
+
 function leerEntradas(id){
     return new Promise(async callback => {
         let cnx = await crearConexion();
@@ -55,12 +69,12 @@ function leerEntradas(id){
     })
 }
 
-function crearEntrada(producto,lote,cantidad,fechaCaducidad,usuario){
+function crearEntrada(producto,lote,cantidad,fechaEntrada,fechaCaducidad,usuario){
     return new Promise(async callback => {
         let resultado = 'ok';
         let cnx = await crearConexion();
         try{
-            await cnx`INSERT INTO entradas (producto,lote,cantidad,fecha_caducidad,usuario) VALUES (${producto},${lote},${cantidad},${fechaCaducidad},${usuario})`;
+            await cnx`INSERT INTO entradas (producto,lote,cantidad,fecha_entrada,fecha_caducidad,usuario) VALUES (${producto},${lote},${cantidad},${fechaEntrada},${fechaCaducidad},${usuario})`;
         }catch(exc){
             resultado = 'ko';
         }finally{
@@ -104,4 +118,19 @@ function leerSesiones(usuario,contraseña){
     })
 }
 
-module.exports = {leerProductos,crearProducto,leerEntradas,crearEntrada,eliminarEntrada,leerSesiones};
+function actualizarEstado(id, estado){
+    return new Promise(async callback => {
+        let resultado = 'ok';
+        let cnx = await crearConexion();
+        try{
+            await cnx`UPDATE entradas SET estado = ${estado} WHERE id = ${id}`;
+        }catch(exc){
+            resultado = 'ko';
+        }finally{
+            cnx.close();
+            callback({resultado})
+        }
+    })
+}
+
+module.exports = {leerProductos,crearProducto,leerTodasEntradas,leerEntradas,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado};
