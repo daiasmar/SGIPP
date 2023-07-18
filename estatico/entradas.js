@@ -3,8 +3,8 @@ const lote = document.querySelector('form div:first-child input');
 const cantidad = document.querySelector('form div:nth-child(2) input');
 const fecha = document.querySelector('form div:nth-child(3) input');
 const errorForm = document.querySelector('section form p');
-const errorBorrar = document.querySelector('section div:last-child p:last-child');
-const borrar = document.querySelectorAll('section div:last-child button');
+const errorBorrar = document.querySelector('section > p');
+const borrar = document.querySelectorAll('section div button a');
 
 formulario.addEventListener('submit', e => {
     e.preventDefault();
@@ -20,11 +20,12 @@ formulario.addEventListener('submit', e => {
 
 for(let i = 0; i < borrar.length; i++){
     borrar[i].addEventListener('click', async e => {
-        let {resultado} = await ajax('/eliminar_entrada','DELETE', {id : parseInt(e.target.dataset.id)});
-        if(resultado == 'ok'){
-            return borrar[i].parentElement.remove();
-        }
-        errorBorrar.classList.add('margin__top--20');
-        errorBorrar.innerHTML = 'No se ha podido borrar la entrada';
+            e.preventDefault();
+            let {resultado} = await ajax('/eliminar_entrada','DELETE', {id : parseInt(e.target.dataset.id)});
+            if(resultado == 'ok'){
+                return window.location = e.target.getAttribute('href');
+            }
+            errorBorrar.classList.add('margin__top--20');
+            errorBorrar.innerHTML = 'No se ha podido borrar la entrada';
     });
 }

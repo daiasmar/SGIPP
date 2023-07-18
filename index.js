@@ -107,16 +107,17 @@ servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => { // POST para crea
     let usuario = req.session.idBBDD;
     let {resultado} = await crearEntrada(producto,lote,cantidad,hoy,fecha_caducidad,usuario);
     if(resultado == 'ok'){
-        return res.redirect('/entrada/:id(\\d{1,11})')
+        return res.redirect(`/entrada/${producto}`);
     }
-    res.send('ha ocurrido un error, intente mas tarde');
+    res.status(500);
+    res.render('error');
 });
 
 servidor.delete('/eliminar_entrada', async (req, res) => { // eliminar entrada
     let idEntrada = req.body.id;
-    let {resultado} = await eliminarEntrada(idEntrada);
+    let resultado = await eliminarEntrada(idEntrada);
     res.json(resultado);
-})
+});
 
 servidor.get('/logout', (req, res) => { // Cerrar sesion
     req.session.destroy(() => res.redirect('/login'));

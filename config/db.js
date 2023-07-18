@@ -59,7 +59,7 @@ function leerEntradas(id){
     return new Promise(async callback => {
         let cnx = await crearConexion();
         try{
-            let entradas = await cnx`SELECT entradas.id,productos.nombre,lote,cantidad,fecha_entrada,fecha_caducidad,estados.estado,sesiones.usuario FROM entradas INNER JOIN estados ON entradas.estado = estados.id INNER JOIN sesiones ON entradas.usuario = sesiones.id RIGHT JOIN productos ON entradas.producto = productos.id WHERE productos.id = ${id}`;
+            let entradas = await cnx`SELECT entradas.id,productos.nombre,lote,cantidad,fecha_entrada,fecha_caducidad,estados.estado,sesiones.usuario FROM entradas INNER JOIN estados ON entradas.estado = estados.id INNER JOIN sesiones ON entradas.usuario = sesiones.id RIGHT JOIN productos ON entradas.producto = productos.id WHERE productos.id = ${id} ORDER BY id DESC`;
             callback(entradas)
         }catch(exc){
             callback({ resultado : 'ko' })
