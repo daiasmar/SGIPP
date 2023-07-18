@@ -7,20 +7,24 @@
     <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-    
-    <section class="cabecera">
-        <h1>Saludos, <%=usuario%></h1>
-        <a href="/logout">cerrar sesión</a>
-    </section>
 
-    <section class="productos">
-        <a href="/nuevo-producto">añadir producto</a>
-        <% for(let i = 0; i < productos.length; i++){ %>
-            <div class="producto">
-                <p><a href="/entrada/<%=productos[i].id%>"><%= productos[i].sku %></a> - <%= productos[i].nombre %></p>
-                <p><%= productos[i].estado %></p>
-                <p>Descripción : <%= productos[i].descripcion %></p>
-            </div>
+    <section class="flex flex__just--btw W__90pe margin__auto--50px bgc__wh radius__20 padd__15px flex__alig--cen">
+        <h1 class="c__blue">Saludos, <%=usuario%></h1>
+        <button class="boton__2"><a class="link__2" href="/logout">cerrar sesión</a></button>
+    </section>
+    
+    <section class="W__90pe margin__auto--0--50px bgc__wh radius__20 padd__15px">
+        <button class="boton__1"><a class="link__1" href="/agregar_producto">añadir producto</a></button>
+        <% if(productos.length > 0){ %>
+            <% for(let i = 0; i < productos.length; i++){ %>
+                <div class="flex flex__wrap flex__just--btw padd__15px radius__20 margin__top--20 bgc__purp c__blue">
+                    <p><a class="c__red" href="/entrada/<%=productos[i].id%>"><%= productos[i].sku %></a> - <%= productos[i].nombre %></p>
+                    <p><%= productos[i].estado %></p>
+                    <p class="W__100pe">Descripción : <%= productos[i].descripcion %></p>
+                </div>
+            <% } %>
+        <% }else{ %>
+            <p class="c__red margin__top--20 font__w--500">No existen productos aún</p>
         <% } %>
     </section>
 

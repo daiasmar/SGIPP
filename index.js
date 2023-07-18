@@ -1,22 +1,22 @@
-const express = require('express');
-const {urlencoded, json} = require('body-parser');
-const session = require('express-session');
-const {leerProductos,leerTodasEntradas,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado,leerStock,actualizarStock} = require('./config/db');
-const {convertirDia} = require('./config/numeros');
+const express = require('express'); // Módulo para crear el servidor
+const {urlencoded, json} = require('body-parser'); // Módulo que intercepta el contenido de una petición
+const session = require('express-session'); // Módulo que permite gestionar las sesiones de usuarios
+const {leerProductos,leerTodasEntradas,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado,leerStock,actualizarStock} = require('./config/db'); // Módulo que realiza peticiones específicas a la base de datos
+const {convertirDia} = require('./config/numeros'); // Módulo que convierte una cantidad de milisegundos a dias
 
-const servidor = express();
+const servidor = express(); // Iniciación de Express
 
-servidor.set('view engine','ejs');
+servidor.set('view engine','ejs'); // Setting del sistema de plantillas EJS
 
-servidor.use(session({
+servidor.use(session({ // Configuración del modulo express-session
     secret : '&NAtfFSb#s&tTkVP',
     resave : true,
     saveUninitialized : false
 }));
 
-servidor.use(express.static('./estatico'));
-servidor.use(urlencoded({extended:true}));
-servidor.use(json());
+servidor.use(express.static('./estatico')); // Configuración de ficheros estaticos
+servidor.use(urlencoded({extended:true})); // Intercepta cuerpo en la URL
+servidor.use(json()); // Intercepta cuerpo en formato JSON de la petición
 
 servidor.use(async (req,res,nxt) => {
     let entradas = await leerTodasEntradas();
@@ -47,47 +47,48 @@ servidor.use(async (req,res,nxt) => {
     nxt();
 });
 
-servidor.get('/login', (req, res) => { //Pagina de LOGIN
+servidor.get('/login', (req, res) => { // Petición con el metodo GET a la pagina de LOGIN
     if(!req.session.usuario){
-        return res.render('login', { error : false });
+        return res.render('login', { error : false }); // Render de la plantilla login.ejs 
     }
     res.redirect('/');
 });
 
-servidor.post('/login', async (req, res) => { // Enviar el formulario de Inicio de Sesion
+servidor.post('/login', async (req, res) => { // Envio de datos de usuario y contraseña con el método POST a la pagina de LOGIN
     let {usuario,contraseña} = req.body;
-    let {resultado,id} = await leerSesiones(usuario.trim(),contraseña.trim());
+    let {resultado,id} = await leerSesiones(usuario.trim(),contraseña.trim()); // Búsqueda en la base de datos a los usuarios con su respectiva contraseña
     if(resultado == 'ok'){
         req.session.usuario = usuario;
-        req.session.idTabla = id;
+        req.session.idBBDD = id; // Guardo de la sesion el id del usuario y su nombre
         return res.redirect('/');
     }
-    res.render('login', {error : true})
+    res.render('login', { error : true })
 })
 
-servidor.get('/', async (req, res) => { // Pagina principal 
+servidor.get('/', async (req, res) => { // Petición a la pagina PRINCIPAL, render de index.ejs
     if(req.session.usuario){
         let usuario = req.session.usuario;
-        let productos = await leerProductos();
-        return res.render('index', {productos, usuario});
+        let productos = await leerProductos(); // Pedir el listado de productos a la base de datos
+        return res.render('index', { productos, usuario });
     }
     res.redirect('/login');
 });
 
-servidor.get('/nuevo-producto', async (req, res) => { // Crear nuevo producto
+servidor.get('/agregar_producto', (req,res) => {
     if(req.session.usuario){
-        return res.render('añadir');
+        return res.render('agregar');
     }
     res.redirect('/login');
 });
 
-servidor.post('/nuevo-producto', async (req, res) => { // POST para crear un nuevo producto
+servidor.post('/agregar_producto', async (req, res) => { // Peticion POST que envia los datos para crear el nuevo producto
     let {sku,nombre,descripcion} = req.body;
     let {resultado} = await crearProducto(sku,nombre.trim(),descripcion.trim());
     if(resultado == 'ok'){
         return res.redirect('/');
     }
-    res.send('ha ocurrido un error, intente mas tarde');
+    res.status(500);
+    res.render('error');
 });
 
 servidor.get('/entrada/:id(\\d{1,11})', async (req, res) => { // Pagina de cada producto
@@ -103,7 +104,7 @@ servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => { // POST para crea
     let {lote,cantidad,fecha_caducidad} = req.body;
     let hoy = new Date();
     let producto = req.params.id;
-    let usuario = req.session.idTabla;
+    let usuario = req.session.idBBDD;
     let {resultado} = await crearEntrada(producto,lote,cantidad,hoy,fecha_caducidad,usuario);
     if(resultado == 'ok'){
         return res.redirect('/entrada/:id(\\d{1,11})')
@@ -111,18 +112,20 @@ servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => { // POST para crea
     res.send('ha ocurrido un error, intente mas tarde');
 });
 
-servidor.delete('/eliminar-entrada', async (req, res) => { // eliminar entrada
+servidor.delete('/eliminar_entrada', async (req, res) => { // eliminar entrada
     let idEntrada = req.body.id;
     let {resultado} = await eliminarEntrada(idEntrada);
-    if(resultado == 'ok'){
-        return res.json({resultado : 'ok'});
-    };
-    res.send('ha ocurrido un error, intente mas tarde');
+    res.json(resultado);
 })
 
 servidor.get('/logout', (req, res) => { // Cerrar sesion
     req.session.destroy(() => res.redirect('/login'));
-})
+});
+
+servidor.use((exc, req, res, nxt) => {
+    res.status(404);
+    res.render('error');
+});
 
 servidor.use((req, res) => { // Redireccionar si la URL no existe
     if(req.session.usuario){

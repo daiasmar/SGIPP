@@ -7,52 +7,54 @@
     <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-    <section class="cabecera">
-        <a href="/">volver</a>
-        <h1><%=entradas[0].nombre%></h1>
+    <section class="flex flex__just--btw W__90pe margin__auto--50px bgc__wh radius__20 padd__15px flex__alig--cen">
+        <button class="boton__2"><a class="link__2" href="/">volver</a></button>
+        <h1 class="c__blue"><%=entradas[0].nombre%></h1>
     </section>
 
-    <section class="formulario">
-        <form action="/entrada/<%=id%>" method="POST">
-            <div>
-                <label for="lote">Lote</label>
-                <input type="text" placeholder="p. ej. 150055-52" name="lote" id="lote">
+    <section class="W__90pe margin__auto--0--20px bgc__wh radius__20 padd__15px">
+        <form class="flex flex__wrap flex__just--cen gap__20" action="/entrada/<%=id%>" method="POST">
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="lote">Lote</label>
+                <input class="input__1" type="text" placeholder="p. ej. 150055-52" name="lote" id="lote">
             </div>
-            <div>
-                <label for="cantidad">Cantidad sin Unidades</label>
-                <input type="text" placeholder="p. ej. 50" name="cantidad" id="cantidad">
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="cantidad">Cantidad sin Unidades</label>
+                <input class="input__1" type="text" placeholder="p. ej. 50" name="cantidad" id="cantidad">
             </div>
-            <div>
-                <label for="fecha_caducidad">Fecha de Caducidad</label>
-                <input type="date" name="fecha_caducidad" id="fecha_caducidad">
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="fecha_caducidad">Fecha de Caducidad</label>
+                <input class="input__1" type="date" name="fecha_caducidad" id="fecha_caducidad">
             </div>
-            <input type="submit" value="añadir entrada">
+            <input class="boton__1 flex__alig--bas curs_poin font__w--600" type="submit" value="añadir entrada">
+            <p class="W__100pe c__red txt__cen font__w--500"></p>
         </form>
-        <p></p>
     </section>
 
-    <section class="entradas">
-        <div class="entrada">
-            <p>Lote</p>
-            <p>Cantidad</p>
-            <p>Fecha de Entrada</p>
-            <p>Fecha de Caducidad</p>
-            <p>Estado</p>
-            <p>Usuario</p>
+    <section class="W__90pe margin__auto--0--50px bgc__wh radius__20 padd__15px">
+        <div class="flex flex__wrap flex__just--btw padd__lr--15">
+            <p class="W__calc--7 c__blue">Lote</p>
+            <p class="W__calc--7 c__blue">Cantidad</p>
+            <p class="W__calc--7 c__blue">Fecha de Entrada</p>
+            <p class="W__calc--7 c__blue">Fecha de Caducidad</p>
+            <p class="W__calc--7 c__blue">Estado</p>
+            <p class="W__calc--7 c__blue">Usuario</p>
+            <p class="W__calc--7 c__blue">Salida del almacén</p>
         </div>
         <% for(let i = 0; i < entradas.length; i++){ %>
             <% if(entradas[0].id !== null) { %>
-                <div class="entrada">
-                    <p><%= entradas[i].lote %></p>
-                    <p><%= entradas[i].cantidad %></p>
-                    <% let entrada = entradas[i].fecha_entrada.toLocaleDateString('es-ES') %><p><%= entrada %></p>
-                    <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p><%= caducidad %></p>
-                    <p><%= entradas[i].estado %></p>
-                    <p><%= entradas[i].usuario %></p>
-                    <button><a data-id="<%= entradas[i].id %>" href="#">Borrar</a></button>
+                <div class="flex flex__wrap flex__just--btw flex__alig--cen padd__15px radius__20 margin__top--20 bgc__purp c__blue">
+                    <p class="W__calc--7"><%= entradas[i].lote %></p>
+                    <p class="W__calc--7"><%= entradas[i].cantidad %></p>
+                    <% let entrada = entradas[i].fecha_entrada.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= entrada %></p>
+                    <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= caducidad %></p>
+                    <p class="W__calc--7"><%= entradas[i].estado %></p>
+                    <p class="W__calc--7"><%= entradas[i].usuario %></p>
+                    <button class="W__calc--7 boton__1"><a class="link__1" data-id="<%= entradas[i].id %>" href="#">Borrar</a></button>
+                    <p class="W__100pe c__red txt__cen font__w--500"></p>
                 </div>
             <% }else{ %>
-                <p class="noexiste">No existen entradas aún</p>
+                <p class="c__red txt__cen font__w--500">No existen entradas aún</p>
             <% } %>
         <% } %>
     </section>

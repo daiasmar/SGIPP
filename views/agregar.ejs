@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+
+    <section class="flex flex__just--btw W__90pe margin__auto--50px bgc__wh radius__20 padd__15px flex__alig--cen">
+        <button class="boton__2"><a class="link__2" href="/">volver</a></button>
+        <h1 class="c__blue">Registrar un nuevo producto</h1>
+    </section>
+    
+    <section class="W__90pe margin__auto--0--50px bgc__wh radius__20 padd__15px">
+        <form class="flex flex__wrap flex__just--cen gap__20" action="/agregar_producto" method="POST">
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="sku">SKU</label>
+                <input class="input__1" type="text" placeholder="p. ej. AB123456" name="sku" id="sku">
+            </div>
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="nombre">Nombre del Producto</label>
+                <input class="input__1" type="text" placeholder="p. ej. Nombre En Mayúscula" name="nombre">
+            </div>
+            <div class="flex flex__dir--col">
+                <label class="c__blue font__w--500" for="descripcion">Descripción del Producto</label>
+                <input class="input__1" type="text" placeholder="p. ej. Unidades de Cantidad" name="descripcion" id="descripcion">
+            </div>
+            <input class="boton__1 flex__alig--bas curs_poin font__w--600" type="submit" value="Añadir">
+            <p class="W__100pe c__red txt__cen font__w--500"></p>
+        </form>
+    </section>
+
+    <script src="/agregar.js"></script>
+
+</body>
+</html>

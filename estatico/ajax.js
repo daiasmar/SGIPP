@@ -7,6 +7,5 @@ function ajax(URL,metodo,datos){
         }
     }
     
-    return fetch(URL,config)
-    .then(res => res.json())
+    return fetch(URL,config).then(res => res.json())
 }

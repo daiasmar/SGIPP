@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-    <section class="titulo">
-        <h1>Sistema de Gestión de Inventarios para Productos Perecederos</h1>
+
+    <section class="H__100vh flex flex__just--cen flex__alig--cen">
+        <div class="flex flex__just--cen flex__alig--cen flex__dir--col bgc__wh radius__20 gap__20 padd__15px">
+            <h1>SGIPP</h1>
+            <form class="flex flex__dir--col gap__20 " action="/login" method="POST">
+                <div class="flex flex__dir--col">
+                    <label class="c__blue font__w--500" for="usuario">Usuario</label>
+                    <input class="input__1" type="text" placeholder="Inserta tu nombre" name="usuario" id="usuario">
+                </div>
+                <div class="flex flex__dir--col">
+                    <label class="c__blue font__w--500" for="contraseña">Contraseña</label>
+                    <input class="input__1" type="password" placeholder="Inserta tu contraseña" name="contraseña" id="contraseña">
+                </div>
+                <input class="boton__1 curs_poin font__w--600" type="submit" value="Iniciar sesión">
+            </form>
+            <% if(error){ %>
+                <p class="c__red margin__top--20 font__w--500">Los datos introducidos no son correctos</p>
+            <% } %>
+        </div>
     </section>
 
-    <section class="formulario">
-        <form action="/login" method="POST">
-            <div>
-                <label for="usuario">Usuario</label>
-                <input type="text" placeholder="Inserta tu nombre" name="usuario" id="usuario">
-            </div>
-            <div>
-                <label for="contraseña">Contraseña</label>
-                <input type="password" placeholder="Inserta tu contraseña" name="contraseña" id="contraseña">
-            </div>
-            <input type="submit" value="Iniciar sesión">
-        </form>
-        <% if(error){ %>
-            <p>Los datos introducidos no son correctos</p>
-        <% } %>
-    </section>
 </body>
 </html>
