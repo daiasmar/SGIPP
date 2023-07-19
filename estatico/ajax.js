@@ -1,5 +1,5 @@
 function ajax(URL,metodo,datos){
-    let config = {
+    let config = { // Objeto de configuración
         method : metodo,
         body : JSON.stringify(datos),
         headers : {
@@ -7,5 +7,5 @@ function ajax(URL,metodo,datos){
         }
     }
     
-    return fetch(URL,config).then(res => res.json())
+    return fetch(URL,config).then(res => res.json()); // Recibe como respuesta JSON
 }

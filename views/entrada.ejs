@@ -41,21 +41,24 @@
             <p class="W__calc--7 c__blue">Usuario</p>
             <p class="W__calc--7 c__blue">Salida del almacén</p>
         </div>
-        <% for(let i = 0; i < entradas.length; i++){ %>
-            <% if(entradas[0].id !== null) { %>
-                <div class="flex flex__wrap flex__just--btw flex__alig--cen padd__15px radius__20 margin__top--20 bgc__purp c__blue">
-                    <p class="W__calc--7"><%= entradas[i].lote %></p>
-                    <p class="W__calc--7"><%= entradas[i].cantidad %></p>
-                    <% let entrada = entradas[i].fecha_entrada.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= entrada %></p>
-                    <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= caducidad %></p>
-                    <p class="W__calc--7"><%= entradas[i].estado %></p>
-                    <p class="W__calc--7"><%= entradas[i].usuario %></p>
-                    <button class="W__calc--7 boton__1"><a class="holi link__1" data-id="<%= entradas[i].id %>" href="/entrada/<%=id%>">Borrar</a></button>
-                </div>
-            <% }else{ %>
-                <p class="c__red txt__cen font__w--500 margin__top--20">No existen entradas aún</p>
+
+        <div class="entradas">
+            <% for(let i = 0; i < entradas.length; i++){ %>
+                <% if(entradas[0].id !== null) { %>
+                    <div class="flex flex__wrap flex__just--btw flex__alig--cen padd__15px radius__20 margin__top--20 bgc__purp c__blue">
+                        <p class="W__calc--7"><%= entradas[i].lote %></p>
+                        <p class="W__calc--7"><%= entradas[i].cantidad %></p>
+                        <% let entrada = entradas[i].fecha_entrada.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= entrada %></p>
+                        <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= caducidad %></p>
+                        <p class="W__calc--7"><%= entradas[i].estado %></p>
+                        <p class="W__calc--7"><%= entradas[i].usuario %></p>
+                        <button class="W__calc--7 boton__1 c__wh curs_poin font__w--600" data-id="<%= entradas[i].id %>">Borrar</button>
+                    </div>
+                <% }else{ %>
+                    <p class="c__red txt__cen font__w--500 margin__top--20">No existen entradas aún</p>
+                <% } %>
             <% } %>
-        <% } %>
+        </div>
 
         <p class="W__100pe c__red txt__cen font__w--500"></p>
 
