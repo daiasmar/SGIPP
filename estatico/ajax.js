@@ -1,4 +1,4 @@
-function ajax(URL,metodo,datos){
+function ajax(URL,metodo,datos){ // Conecta con una URL, envia datos y recibe una respuesta en JSON
     let config = { // Objeto de configuración
         method : metodo,
         body : JSON.stringify(datos),
@@ -7,5 +7,5 @@ function ajax(URL,metodo,datos){
         }
     }
     
-    return fetch(URL,config).then(res => res.json()); // Recibe como respuesta JSON
+    return fetch(URL,config).then(res => res.json()); // Promesa
 }
