@@ -52,7 +52,7 @@
                         <% let caducidad = entradas[i].fecha_caducidad.toLocaleDateString('es-ES') %><p class="W__calc--7"><%= caducidad %></p>
                         <p class="W__calc--7"><%= entradas[i].estado %></p>
                         <p class="W__calc--7"><%= entradas[i].usuario %></p>
-                        <button class="W__calc--7 boton__1 c__wh curs_poin font__w--600" data-id="<%= entradas[i].id %>">Borrar</button>
+                        <button class="W__calc--7 boton__1 link__1" data-id="<%= entradas[i].id %>">Borrar</button>
                     </div>
                 <% }else{ %>
                     <p class="c__red txt__cen font__w--500 margin__top--20">No existen entradas aún</p>

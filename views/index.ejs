@@ -18,8 +18,8 @@
         <% if(productos.length > 0){ %>
             <% for(let i = 0; i < productos.length; i++){ %>
                 <div class="flex flex__wrap flex__just--btw padd__15px radius__20 margin__top--20 bgc__purp c__blue">
-                    <p><a class="c__red font__w--600" href="/entrada/<%=productos[i].id%>"><%= productos[i].sku %></a> - <%= productos[i].nombre %></p>
-                    <p><%= productos[i].estado %></p>
+                    <p><a class="c__red font__w--600" href="/entrada/<%=productos[i].id%>"><%= productos[i].sku %></a> _ <%= productos[i].nombre %></p>
+                    <p class="font__w--600"><%= productos[i].estado %></p>
                     <p class="W__100pe">Descripción : <%= productos[i].descripcion %></p>
                 </div>
             <% } %>
