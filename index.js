@@ -3,7 +3,7 @@ const {urlencoded, json} = require('body-parser'); // Módulo que intercepta el 
 const session = require('express-session'); // Módulo que permite gestionar las sesiones de usuarios
 const {leerProductos,leerEntradas,crearProducto,crearEntrada,eliminarEntrada,leerSesiones,actualizarEstado,leerStock
     ,actualizarStock} = require('./config/db'); // Módulo que realiza peticiones específicas a la base de datos
-const {convertirDia} = require('./config/dia'); // Módulo que convierte una cantidad de milisegundos a dias
+const {convertirDia,mostrarError} = require('./config/funciones'); // Módulo que convierte una cantidad de milisegundos a dias
 
 const servidor = express(); // Iniciación de Express
 
@@ -81,8 +81,8 @@ servidor.post('/agregar_producto', async (req, res) => {
     if(resultado == 'ok'){
         return res.redirect('/');
     }
-    res.status(500); // Error en las bases de datos 
-    res.render('error'); // Render de la pantilla error.ejs
+
+    mostrarError(res,500,'error'); // Error en la base de datos al crear
 });
 
 // PÁGINA PARA VISUALIZAR Y REGISTRAR ENTRADAS
@@ -120,11 +120,12 @@ servidor.post('/entrada/:id(\\d{1,11})', async (req, res) => {
     let producto = req.params.id; // Id del producto como parámetro en la URL
     let usuario = req.session.idBBDD; // Id del usuario de la base de datos en la sesión
     let {resultado} = await crearEntrada(producto,lote,cantidad,hoy,fecha_caducidad,usuario); // Consulta pasando datos
+    
     if(resultado == 'ok'){
         return res.redirect(`/entrada/${producto}`); 
     }
-    res.status(500);
-    res.render('error');
+    
+    mostrarError(res,500,'error'); // Error en la base de datos al crear
 });
 
 // ENDPOINT PARA ELIMINAR ENTRADA
@@ -144,8 +145,7 @@ servidor.get('/logout', (req, res) => {
 // ERROR DE 404 PARA PÁGINAS DE PRODUCTO - ENTRADAS QUE NO EXISTEN
 
 servidor.use((exc, req, res, nxt) => {
-    res.status(404);
-    res.render('error');
+    mostrarError(res,404,'error'); // Error en la URL
 });
 
 // CONTROL QUE REDIRECCIONA A LA PAGINA PRINCIPAL O A LA DE INICIAR SESIÓN 
